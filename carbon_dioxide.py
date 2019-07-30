@@ -13,11 +13,11 @@ def co2():
     mx_cou_em = pd.DataFrame(columns=['Income group', 'Country name', 'stat'])
     mi_cou_em = pd.DataFrame(columns=['Income group', 'Country name', 'stat'])
     for m in df_max.stat.values:
-        cou_em = df[df.stat == m]
+        cou_em = df[df.stat == m].loc[:,:]
         mx_cou_em = pd.concat([mx_cou_em, cou_em])
     for m in df_min.stat.values:
-        cou_em = df[df.stat == m]
-        mx_cou_em = pd.concat([mi_cou_em, cou_em])
+        cou_em = df[df.stat == m].loc[:,:]
+        mi_cou_em = pd.concat([mi_cou_em, cou_em])
     mx_cou_em = mx_cou_em.set_index(mx_cou_em['Income group'])[['Country name', 'stat']]
     mi_cou_em = mi_cou_em.set_index(mi_cou_em['Income group'])[['Country name', 'stat']]
 
@@ -26,7 +26,7 @@ def co2():
     mx_cou_em.columns = ['Highest emission country', 'Highest emissions']
     mi_cou_em.columns = ['Lowest emission country', 'Lowest emissions']
     results = pd.concat([df_sum, mx_cou_em, mi_cou_em], axis=1)
-    return mx_cou_em
+    return results
 
 def clean(df):
     df1 = df['Data'][df['Data']['Series code'] == 'EN.ATM.CO2E.KT']
